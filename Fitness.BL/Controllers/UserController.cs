@@ -27,9 +27,13 @@ namespace Fitness.BL.Controllers
             {
                 IsNewUser = true;
                 CurrentUser = new User(userName);
+                Users.Add(CurrentUser);
             }
             else
+            {
                 CurrentUser = user;
+             
+            }
         }
 
         public void AddUserData(string gender, DateTime birth, double weight, double height)
@@ -47,16 +51,19 @@ namespace Fitness.BL.Controllers
             {
                 throw new ArgumentException("Unreal Weight", nameof(weight));
             }
-            if (height<50 || height>3)
+            if (height<50 || height>300)
             {
                 throw new ArgumentException("Unreal Height", nameof(weight));
             }
             Gender gen = new Gender(gender);
-            CurrentUser = new User(CurrentUser.Name, gen, birth, weight, height);
-            Users.Add(CurrentUser);
+            CurrentUser.Gender = gen;
+            CurrentUser.DateOfBirth = birth;
+            CurrentUser.Weight = weight;
+            CurrentUser.Height = height;
+            Save();
         }
 
-        public void Save()
+        private void Save()
         {
             if (Users is null)
             {

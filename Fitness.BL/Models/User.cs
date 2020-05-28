@@ -10,8 +10,8 @@ namespace Fitness.BL.Models
     {
         #region Properties
         public readonly string Name;
-        public readonly Gender Gender;
-        public readonly DateTime DateOfBirth;
+        public Gender Gender { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public double Weight { get; set; }
         public double Height { get; set; }
         public int Age { get => (DateTime.Now - DateOfBirth).Days / 365; }
@@ -21,12 +21,8 @@ namespace Fitness.BL.Models
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    throw new System.ArgumentException("Incorrect name", nameof(name));
-                }
+                throw new ArgumentException("Incorrect name", nameof(name));
             }
-
             Name = name;
         }
 
@@ -34,7 +30,7 @@ namespace Fitness.BL.Models
                     Gender gender,
                     DateTime dateOfBirth,
                     double weight,
-                    double height):this(name)
+                    double height) : this(name)
         {
 
             if (dateOfBirth.Year < 1900)
@@ -48,7 +44,7 @@ namespace Fitness.BL.Models
 
             }
 
-            if (height <=0)
+            if (height <= 0)
             {
                 throw new ArgumentException("Wrong height", nameof(height));
 

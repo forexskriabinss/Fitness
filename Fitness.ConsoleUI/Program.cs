@@ -18,7 +18,6 @@ namespace Fitness.ConsoleUI
                 var height = ParseDouble("height");
 
                 userController.AddUserData(gender, birth, weight, height);
-                userController.Save();
             }
 
             C.WriteLine(userController.CurrentUser);
