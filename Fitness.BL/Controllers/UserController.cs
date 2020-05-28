@@ -32,27 +32,27 @@ namespace Fitness.BL.Controllers
                 CurrentUser = user;
         }
 
-        public void AddUserData(string gender, string birth, string w, string h)
+        public void AddUserData(string gender, DateTime birth, double weight, double height)
         {
             if (string.IsNullOrWhiteSpace(gender))
             {
                 throw new System.ArgumentException("Gender is not valid", nameof(gender));
             }
         
-            if (!DateTime.TryParse(birth, out DateTime dateOfBirth))
+            if (birth < DateTime.Now.AddYears(-100) )
             {
-                throw new ArgumentException("Wrong date of birth", nameof(dateOfBirth));
+                throw new ArgumentException("Age more than 100 years", nameof(birth));
             }
-            if (!Double.TryParse(w, out double weight))
+            if (weight<10||weight>500)
             {
-                throw new ArgumentException("Weight must be double", nameof(w));
+                throw new ArgumentException("Unreal Weight", nameof(weight));
             }
-            if (!Double.TryParse(h, out double height))
+            if (height<50 || height>3)
             {
-                throw new ArgumentException("Height must be double", nameof(w));
+                throw new ArgumentException("Unreal Height", nameof(weight));
             }
             Gender gen = new Gender(gender);
-            CurrentUser = new User(CurrentUser.Name, gen, dateOfBirth, weight, height);
+            CurrentUser = new User(CurrentUser.Name, gen, birth, weight, height);
             Users.Add(CurrentUser);
         }
 

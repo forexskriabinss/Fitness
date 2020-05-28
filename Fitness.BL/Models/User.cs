@@ -14,6 +14,7 @@ namespace Fitness.BL.Models
         public readonly DateTime DateOfBirth;
         public double Weight { get; set; }
         public double Height { get; set; }
+        public int Age { get => (DateTime.Now - DateOfBirth).Days / 365; }
         #endregion
 
         public User(string name)
@@ -61,7 +62,7 @@ namespace Fitness.BL.Models
 
         public override string ToString()
         {
-            return $"{Name}, {Gender} ({DateOfBirth}).\n Weight->{Weight}\tHeight->{Height}";
+            return $"{Name}, {Gender} ({Age}).\n Weight->{Weight}\tHeight->{Height}";
         }
 
 
