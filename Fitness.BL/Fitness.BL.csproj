@@ -54,7 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EatingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Models\Eating.cs" />
+    <Compile Include="Models\Food.cs" />
     <Compile Include="Models\Gender.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

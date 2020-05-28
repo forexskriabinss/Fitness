@@ -7,7 +7,7 @@ using Fitness.BL.Models;
 
 namespace Fitness.BL.Controllers
 {
-    public class UserController
+    public class UserController: BaseController
     {
         public List<User> Users { get; private set; }
         public User CurrentUser { get; private set; }
@@ -60,35 +60,17 @@ namespace Fitness.BL.Controllers
             CurrentUser.DateOfBirth = birth;
             CurrentUser.Weight = weight;
             CurrentUser.Height = height;
-            Save();
+            SaveUsers();
         }
 
-        private void Save()
+        private void SaveUsers()
         {
-            if (Users is null)
-            {
-                throw new System.ArgumentNullException("User is null" ,nameof(User));
-            }
-            
-            var formatter = new BinaryFormatter();
-            using(var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, Users);
-            }
+            base.Save<User>("users.dat", Users);
         }
 
         private void LoadUsers()
         {
-            var formatter = new BinaryFormatter();
-            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                if (fs.Length == 0)
-                    Users = new List<User>();
-                else
-                    Users = formatter.Deserialize(fs) as List<User>;
-                if (Users == null)
-                    Users = new List<User>();
-            }
+            Users = base.Load<User>("users.dat");
         }
     }
 }
