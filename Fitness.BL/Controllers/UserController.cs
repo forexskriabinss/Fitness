@@ -9,6 +9,7 @@ namespace Fitness.BL.Controllers
 {
     public class UserController: BaseController
     {
+        private const string USERS_FILE_NAME = "users.dat";
         public List<User> Users { get; private set; }
         public User CurrentUser { get; private set; }
         public bool IsNewUser { get; } = false;
@@ -21,7 +22,7 @@ namespace Fitness.BL.Controllers
                 throw new ArgumentException("Name is incorrect", nameof(userName));
             }
 
-            LoadUsers();
+            Users = GetUsers();
             var user = Users.FirstOrDefault(x => x.Name == userName);
             if (user == null)
             {
@@ -38,23 +39,23 @@ namespace Fitness.BL.Controllers
 
         public void AddUserData(string gender, DateTime birth, double weight, double height)
         {
-            if (string.IsNullOrWhiteSpace(gender))
-            {
-                throw new System.ArgumentException("Gender is not valid", nameof(gender));
-            }
-        
-            if (birth < DateTime.Now.AddYears(-100) )
-            {
-                throw new ArgumentException("Age more than 100 years", nameof(birth));
-            }
-            if (weight<10||weight>500)
-            {
-                throw new ArgumentException("Unreal Weight", nameof(weight));
-            }
-            if (height<50 || height>300)
-            {
-                throw new ArgumentException("Unreal Height", nameof(weight));
-            }
+            //TODO: Correct validation
+            //if (string.IsNullOrWhiteSpace(gender))
+            //{
+            //    throw new System.ArgumentException("Gender is not valid", nameof(gender));
+            //}
+            //if (birth < DateTime.Now.AddYears(-100) )
+            //{
+            //    throw new ArgumentException("Age more than 100 years", nameof(birth));
+            //}
+            //if (weight<10||weight>500)
+            //{
+            //    throw new ArgumentException("Unreal Weight", nameof(weight));
+            //}
+            //if (height<50 || height>300)
+            //{
+            //    throw new ArgumentException("Unreal Height", nameof(weight));
+            //}
             Gender gen = new Gender(gender);
             CurrentUser.Gender = gen;
             CurrentUser.DateOfBirth = birth;
@@ -65,12 +66,13 @@ namespace Fitness.BL.Controllers
 
         private void SaveUsers()
         {
-            base.Save<User>("users.dat", Users);
+            base.Save<User>(USERS_FILE_NAME, Users);
         }
 
-        private void LoadUsers()
+        private List<User> GetUsers()
         {
-            Users = base.Load<User>("users.dat");
+            return base.Load<User>(USERS_FILE_NAME);
         }
+
     }
 }

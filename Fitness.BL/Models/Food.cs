@@ -1,5 +1,8 @@
-﻿namespace Fitness.BL.Models
+﻿using System;
+
+namespace Fitness.BL.Models
 {
+    [Serializable]
     public class Food
     {
         #region Properties

@@ -1,5 +1,6 @@
 ﻿using System;
 using Fitness.BL.Controllers;
+using Fitness.BL.Models;
 using C = System.Console;
 
 namespace Fitness.ConsoleUI
@@ -8,54 +9,62 @@ namespace Fitness.ConsoleUI
     {
         static void Main(string[] args)
         {
-            var name = ReadLineWithClear("Please, enter your name:");
+            var name = ConsoleHelper.ParseString("Please Enter name");
             UserController userController = new UserController(name);
+
             if (userController.IsNewUser)
             {
-                var gender = ReadLineWithClear("Please, enter your gender:", ConsoleColor.Blue);
-                var birth = ParseBirthday();
-                var weight = ParseDouble("weight");
-                var height = ParseDouble("height");
-
-                userController.AddUserData(gender, birth, weight, height);
+                EnterNewUser(userController);
             }
-
-            C.WriteLine(userController.CurrentUser);
-            C.ReadKey();
-        }
-
-
-        static string ReadLineWithClear(string text, ConsoleColor color = ConsoleColor.White)
-        {
             C.Clear();
-            C.ForegroundColor = color;
-            C.Write(text);
-            var result = C.ReadLine();
-            return result;
+            C.WriteLine(userController.CurrentUser);
+            while(true)
+            {
+                var choice = UserChoice();
+                C.Clear();
+                if (choice == ConsoleKey.E)
+                {
+                    EatingController eatingController = new EatingController(userController.CurrentUser);
+                    var eating = EnterEating();
+                    eatingController.Add(eating.food, eating.weight);
+                   
+                }
+                if (choice == ConsoleKey.Escape)
+                    break;
+            }
         }
 
-        static double ParseDouble(string name)
+        private static (Food food, double weight) EnterEating()
+        {
+            var foodName = ConsoleHelper.ParseString("Product name", clear:false);
+            var proteins = ConsoleHelper.ParseDouble("proteins", clear: false);
+            var fats = ConsoleHelper.ParseDouble("fats", clear: false);
+            var carbohydrate = ConsoleHelper.ParseDouble("carbohydrate", clear: false);
 
-        {
-            var str = string.Empty;
-            double result;
-            do
-            {
-                 str = ReadLineWithClear($"Please, enter your {name}:", ConsoleColor.Green);
-            }
-            while (!double.TryParse(str, out result));
-            return result;
+            Food food = new Food(foodName, proteins, fats, carbohydrate);
+            var weight = ConsoleHelper.ParseDouble("weight: ", clear: false);
+            return (food, weight);
         }
-        static DateTime ParseBirthday()
+
+        private static void EnterNewUser(UserController userController)
         {
-            var birth = string.Empty;
-            DateTime result;
+            var gender = ConsoleHelper.ParseString("Please, enter your gender:");
+            var birth = ConsoleHelper.ParseBirthday();
+            var weight = ConsoleHelper.ParseDouble("weight");
+            var height = ConsoleHelper.ParseDouble("height");
+            userController.AddUserData(gender, birth, weight, height);
+        }
+
+        private static ConsoleKey UserChoice()
+        {
+            ConsoleKey key;
             do
             {
-                birth = ReadLineWithClear("Please, enter your date of birth:");
-            }
-            while (!DateTime.TryParse(birth, out result));
-            return result;
+                C.WriteLine("What do you want?");
+                C.WriteLine("E - Eating");
+                key = C.ReadKey().Key;
+            } while (key != ConsoleKey.E);
+            return key;
         }
     }
 }
