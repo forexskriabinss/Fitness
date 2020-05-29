@@ -1,5 +1,6 @@
 ﻿using System;
 using Fitness.BL.Controllers;
+using Fitness.BL.Models;
 using C = System.Console;
 
 namespace Fitness.ConsoleUI
@@ -8,22 +9,56 @@ namespace Fitness.ConsoleUI
     {
         static void Main(string[] args)
         {
-            var name = ReadLineWithClear("Please, enter your name:");
+            var name = ParseString("name");
             UserController userController = new UserController(name);
             if (userController.IsNewUser)
             {
-                var gender = ReadLineWithClear("Please, enter your gender:", ConsoleColor.Blue);
+                var gender = ParseString("gender");
                 var birth = ParseBirthday();
                 var weight = ParseDouble("weight");
                 var height = ParseDouble("height");
-
                 userController.AddUserData(gender, birth, weight, height);
             }
-
             C.WriteLine(userController.CurrentUser);
+            var key = WhatAreYouWant();
+            if(key == ConsoleKey.E)
+            {
+                EatingController eatingController = new EatingController(userController.CurrentUser);
+                var result = EnterEating();
+               
+                eatingController.Add(result.food, result.weight);
+            }
+          
+
             C.ReadKey();
         }
 
+        private static (Food food, double weight) EnterEating()
+        {
+            C.Write("Enter food:\t");
+            var name = ParseString("food");
+
+            var calories = ParseDouble("calories");
+            var proteins = ParseDouble("proteins");
+            var fats = ParseDouble("fats");
+            var carbohydrate = ParseDouble("fats");
+
+            Food food = new Food(name, calories, proteins, fats, carbohydrate);
+            var weight = ParseDouble("weight");
+            return (food, weight);
+        }
+
+        private static ConsoleKey WhatAreYouWant()
+        {
+            ConsoleKey key;
+            do
+            {
+                C.WriteLine("What are want?");
+                C.WriteLine("E- Eating");
+                key = C.ReadKey().Key;
+            } while (key != ConsoleKey.E);
+            return key;
+        }
 
         static string ReadLineWithClear(string text, ConsoleColor color = ConsoleColor.White)
         {
@@ -34,7 +69,19 @@ namespace Fitness.ConsoleUI
             return result;
         }
 
-        static double ParseDouble(string name)
+        #region User Entering
+        static string ParseString(string name)
+        {
+            var result = string.Empty;
+            do
+            {
+                result = ReadLineWithClear($"Enter {name}: ", ConsoleColor.Blue);
+            }
+            while (string.IsNullOrWhiteSpace(result));
+            return result;
+        }
+
+        private static double ParseDouble(string name)
 
         {
             var str = string.Empty;
@@ -46,7 +93,8 @@ namespace Fitness.ConsoleUI
             while (!double.TryParse(str, out result));
             return result;
         }
-        static DateTime ParseBirthday()
+
+        private static DateTime ParseBirthday()
         {
             var birth = string.Empty;
             DateTime result;
@@ -57,5 +105,6 @@ namespace Fitness.ConsoleUI
             while (!DateTime.TryParse(birth, out result));
             return result;
         }
+        #endregion
     }
 }
