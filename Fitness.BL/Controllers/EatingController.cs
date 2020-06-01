@@ -28,7 +28,7 @@ namespace Fitness.BL.Controllers
         /// <param name="weight">Amount of food</param>
         public void Add(Food food, double weight)
         {
-            var findedFood = Foods.SingleOrDefault(f => f == food);
+            var findedFood = Foods.SingleOrDefault(f => f.Name == food.Name);
             if (findedFood == null)
             {
                 Foods.Add(food);
@@ -36,7 +36,7 @@ namespace Fitness.BL.Controllers
             }
             else
             {
-                Eating.Foods[findedFood] += weight;
+                Eating.Add(findedFood,weight);
             }
             Save();
         }
