@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Fitness.BL.Models
 {
+    [Serializable]
     public class Eating
     {
         public readonly User User;
@@ -19,7 +20,7 @@ namespace Fitness.BL.Models
         public void Add(Food food, double weight)
         {
             var existedFood = Foods.FirstOrDefault(f=> f.Key==food).Key;
-            if(food==null)
+            if(existedFood == null)
             {
                 Foods.Add(food, weight);
             }
