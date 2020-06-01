@@ -9,8 +9,6 @@ namespace Fitness.BL.Controllers
 {
     public class UserController: BaseController
     {
-        private const string USER_FILE_NAME = "users.dat";
-
         public List<User> Users { get; private set; }
         public User CurrentUser { get; private set; }
         public bool IsNewUser { get; } = false;
@@ -23,7 +21,7 @@ namespace Fitness.BL.Controllers
                 throw new ArgumentException("Name is incorrect", nameof(userName));
             }
 
-            Users = GetAllUsers();
+            LoadUsers();
             var user = Users.FirstOrDefault(x => x.Name == userName);
             if (user == null)
             {
@@ -67,14 +65,12 @@ namespace Fitness.BL.Controllers
 
         private void SaveUsers()
         {
-            base.Save<User>(USER_FILE_NAME, Users);
+            base.Save<User>("users.dat", Users);
         }
 
-        private List<User> GetAllUsers()
+        private void LoadUsers()
         {
-            return base.Load<User>(USER_FILE_NAME)?? new List<User>();
+            Users = base.Load<User>("users.dat");
         }
-
-     
     }
 }
