@@ -5,7 +5,8 @@ namespace Fitness.BL.Models
     [Serializable]
     public class Gender
     {
-        public readonly string Name;
+        public int Id { get; set; }
+        public string Name { get; set; }
 
         public Gender(string name)
         {

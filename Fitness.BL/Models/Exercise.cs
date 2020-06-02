@@ -5,8 +5,13 @@ namespace Fitness.BL.Models
     [Serializable]
     public class Exercise
     {
+        public int Id { get; set; }
         public Activity Activity { get; set; }
-        public User User { get; }
+        public int ActivityId { get; set; }
+
+        public User User { get; set; }
+        public int UserId { get; set; }
+
         public DateTime Start { get; set; }
         public DateTime Finish { get; set; }
 

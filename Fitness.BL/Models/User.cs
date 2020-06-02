@@ -9,13 +9,22 @@ namespace Fitness.BL.Models
     public class User
     {
         #region Properties
-        public readonly string Name;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int GenderId { get; set; }
         public Gender Gender { get; set; }
+
         public DateTime DateOfBirth { get; set; }
         public double Weight { get; set; }
         public double Height { get; set; }
         public int Age { get => (DateTime.Now - DateOfBirth).Days / 365; }
         #endregion
+        
+
+        public User()
+        {
+
+        }
 
         public User(string name)
         {

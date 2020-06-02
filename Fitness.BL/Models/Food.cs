@@ -6,14 +6,15 @@ namespace Fitness.BL.Models
     public class Food
     {
         #region Properties
-        public string Name { get;}
-        public double Calories { get; }
-        public double Proteins { get; }
-        public double Fats { get; }
-        public double Carbohydrate { get; }
-        private double ProteinsPerOneGram { get; }
-        private double FatsPerOneGram { get; }
-        private double CarbohydratePerOneGram { get; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public double Calories { get; set; }
+        public double Proteins { get; set; }
+        public double Fats { get; set; }
+        public double Carbohydrate { get; set; }
+        private double ProteinsPerOneGram { get; set; }
+        private double FatsPerOneGram { get; set; }
+        private double CarbohydratePerOneGram { get; set; }
         #endregion
 
         public Food(string name, double calories = 0, double proteins = 0, double fats = 0, double carbohydrate = 0)
