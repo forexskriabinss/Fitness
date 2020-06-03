@@ -7,8 +7,12 @@ namespace Fitness.BL.Models
     [Serializable]
     public class Eating
     {
-        public readonly User User;
-        public readonly DateTime Moment = DateTime.Now;
+        public int Id { get; set; }
+
+        public int UserId { get; set; }
+        public  User User { get; set; }
+        public  DateTime Moment { get; set; } = DateTime.Now;
+
         public Dictionary<Food, double> Foods { get; set; }
 
         public Eating(User user)

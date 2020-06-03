@@ -7,9 +7,6 @@ namespace Fitness.BL.Controllers
 {
     public class ExerciseController:BaseController
     {
-        private const string ACTIVITIES_FILE_NAME = "activities.dat";
-        private const string EXERCISES_FILE_NAME = "exrcises.dat";
-
         public List<Exercise> Exercises { get; }
         public List<Activity> Activities { get; }
         private readonly User user;
@@ -41,18 +38,18 @@ namespace Fitness.BL.Controllers
 
         private void Save()
         {
-            base.Save(ACTIVITIES_FILE_NAME, Activities);
-            base.Save(EXERCISES_FILE_NAME, Exercises);
+            base.Save( Activities);
+            base.Save(Exercises);
         }
 
         private List<Exercise> GetAllExercises()
         {
-            return base.Load<Exercise>(EXERCISES_FILE_NAME);
+            return base.Load<Exercise>();
         }
 
         private List<Activity> GetAllActivities()
         {
-            return base.Load<Activity>(ACTIVITIES_FILE_NAME);
+            return base.Load<Activity>();
         }
     }
 }

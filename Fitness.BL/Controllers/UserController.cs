@@ -9,7 +9,6 @@ namespace Fitness.BL.Controllers
 {
     public class UserController: BaseController
     {
-        private const string USERS_FILE_NAME = "users.dat";
         public List<User> Users { get; private set; }
         public User CurrentUser { get; private set; }
         public bool IsNewUser { get; } = false;
@@ -66,12 +65,12 @@ namespace Fitness.BL.Controllers
 
         private void SaveUsers()
         {
-            base.Save<User>(USERS_FILE_NAME, Users);
+            base.Save<User>(Users);
         }
 
         private List<User> GetUsers()
         {
-            return base.Load<User>(USERS_FILE_NAME);
+            return base.Load<User>();
         }
 
     }
